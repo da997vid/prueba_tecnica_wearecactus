@@ -2,13 +2,14 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, Input } fro
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MediaMatcher } from '@angular/cdk/layout';
 import {} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ProductsService } from './services/products.service';
 import { ProductsReport } from './models/productsReport';
+import { DialogNameComponent } from './dialog-name/dialog-name.component';
 
 import { AuthService } from '../auth.service';
 
@@ -25,8 +26,6 @@ export class ProductsComponent implements OnInit {
   showSidenav: boolean = false;
   displayedColumns: string[] = ['name', 'status', 'details'];
   dataSource: MatTableDataSource<ProductsReport>;
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -36,10 +35,7 @@ export class ProductsComponent implements OnInit {
     private authService: AuthService,
     changeDetectorRef: ChangeDetectorRef, 
     private router: Router,
-    media: MediaMatcher) { 
-      this.mobileQuery = media.matchMedia('(max-width: 600px)');
-      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-      this.mobileQuery.addListener(this._mobileQueryListener);
+    public dialog: MatDialog) { 
     }
 
   ngOnInit(): void {
@@ -55,10 +51,6 @@ export class ProductsComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
-  }
-
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
   /** Filter table elements by value */
@@ -82,5 +74,22 @@ export class ProductsComponent implements OnInit {
   /** Logout user */
   logout() {
     this.authService.logout().then(() => this.router.navigate(['/']))
+  }
+
+  /** Open dialog change name */
+  openDialog(): void {
+    let dialogRef = this.dialog.open(DialogNameComponent, {
+      width: '250px',
+      data: { user_name: this.user_name}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if(result)
+      {
+        this.authService.saveNameUser(result);
+        this.user_name = result;
+      }
+    });
   }
 }

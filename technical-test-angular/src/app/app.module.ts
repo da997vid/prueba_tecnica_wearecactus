@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ProductsComponent } from './products/products.component';
+import { DialogNameComponent } from './products/dialog-name/dialog-name.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -25,7 +26,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    ProductsComponent
+    ProductsComponent,
+    DialogNameComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -38,6 +40,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     HttpClientModule
   ],
+  entryComponents: [DialogNameComponent],
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

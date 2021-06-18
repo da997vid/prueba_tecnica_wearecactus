@@ -17,6 +17,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table'  
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
         MatPaginatorModule,
         MatSortModule,
         MatTableModule,
-        MatSidenavModule
+        MatSidenavModule,
+        MatDialogModule
     ],
     exports: [
         CommonModule,
@@ -54,7 +56,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
         MatPaginatorModule,
         MatSortModule,
         MatTableModule,
-        MatSidenavModule
+        MatSidenavModule,
+        MatDialogModule
     ]
 })
 

@@ -5,17 +5,16 @@
     
 </mat-toolbar> -->
 
-<div class="main-container" [class.example-is-mobile]="mobileQuery.matches">
+<div class="main-container" *ngIf="user_name">
     <mat-toolbar color="primary">
         <h1 class="example-app-name">Technical Test Frontend</h1>
         <span class="example-spacer"></span>
-        <h2>{{user_name}}</h2>
+        <a (click)="openDialog()"><h2>{{user_name}}</h2></a>
         <a mat-button target="_self" matTooltip="Cerrar sesión" (click)="logout()"> <mat-icon style="color: white">exit_to_app</mat-icon></a>
     </mat-toolbar>
 
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-        <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-            fixedTopGap="56">
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav #sidenav position="end">
             <mat-nav-list>
                 <mat-card class="mat-elevation-z8" *ngIf="showSidenav">
                     <mat-card-content>

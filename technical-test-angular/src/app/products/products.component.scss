@@ -30,6 +30,15 @@ tr.mat-header-row {
     height: 100vh;
 }
   
+
+@media only screen and (min-device-width : 640px) {
+    mat-sidenav {
+        width: 500px;
+    }
+}
 .sidenav-container {
     height: 100vh;
+}
+mat-sidenav-content {
+    padding: 10px;
 }
