@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ProductsComponent } from './products.component';
 
@@ -24,9 +26,15 @@ describe('ProductsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        MatDialogModule,
+        BrowserAnimationsModule
       ],
-      declarations: [ ProductsComponent ]
+      declarations: [ ProductsComponent ],
+      providers: [
+        {provide: MAT_DIALOG_DATA, useValue: {}}, 
+        {provide: MatDialogRef, useValue: {}}
+      ]
     })
     .compileComponents();
   });
@@ -40,4 +48,11 @@ describe('ProductsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call openDialog', () => {
+    const fixture = TestBed.createComponent(ProductsComponent);
+    const app = fixture.componentInstance;
+    app.openDialog();
+  })
+
 });

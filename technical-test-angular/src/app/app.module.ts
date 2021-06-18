@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
 
 // Material
 import { AngularMaterialModule } from './angular-material.module';
@@ -41,7 +43,10 @@ const routes: Routes = [
     HttpClientModule
   ],
   entryComponents: [DialogNameComponent],
-  providers: [],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} } 
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

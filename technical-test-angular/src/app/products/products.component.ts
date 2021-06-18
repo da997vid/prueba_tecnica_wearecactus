@@ -84,7 +84,6 @@ export class ProductsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if(result)
       {
         this.authService.saveNameUser(result);
