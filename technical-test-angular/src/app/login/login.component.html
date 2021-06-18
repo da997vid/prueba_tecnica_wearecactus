@@ -1,0 +1,22 @@
+<div class="main-wrapper" fxLayout="row" fxLayoutAlign="center center">
+
+    <mat-card class="mat-elevation-z8">
+        <mat-card-header>
+            <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
+
+        <form class="example-form" [formGroup]="loginForm" (ngSubmit)="login()">
+            <mat-card-content>
+                <mat-form-field class="example-full-width">
+                    <input type="text" formControlName="name" matInput placeholder="Name">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput type="password" formControlName="password" placeholder="Password">
+                </mat-form-field>
+            </mat-card-content>
+            <button type="submit" mat-raised-button color="primary" class="btn-block">Login</button>
+        </form>
+    </mat-card>
+
+</div>
