@@ -1,9 +1,15 @@
-<div class="main-container" *ngIf="user_name">
-    <mat-toolbar color="primary">
-        <h1 >Technical Test Frontend</h1>
+<div class="main-container">
+    <mat-toolbar color="accent">
+        <h1>Technical Test Frontend</h1>
         <span class="example-spacer"></span>
-        <a (click)="openDialog()"><h2>{{user_name}}</h2></a>
-        <a mat-button target="_self" matTooltip="Cerrar sesión" (click)="logout()"> <mat-icon style="color: white">exit_to_app</mat-icon></a>
+        <h2>{{user_name}}</h2>
+        <button mat-icon-button matTooltip="Edit name profile" (click)="openDialog()">
+            <mat-icon style="color: white">edit</mat-icon>
+        </button>
+
+        <a mat-button target="_self" matTooltip="Logout" (click)="logout()">
+            <mat-icon style="color: white">exit_to_app</mat-icon>
+        </a>
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-container">
@@ -34,7 +40,11 @@
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>Status</mat-label>
-                            <input matInput placeholder="Placeholder" [(ngModel)]="productDetailData.status" readonly>
+                            <mat-select [(ngModel)]="productDetailData.status">
+                                <mat-option *ngFor="let stat of status" [value]="stat.value">
+                                    {{stat.viewValue}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>Created at</mat-label>
@@ -60,28 +70,32 @@
                 <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Product 1" #input>
             </mat-form-field>
 
+            <!-- Select columns to show -->
+            <mat-form-field appearance="outline">
+                <mat-label>Columns</mat-label>
+                <mat-select [formControl]="columnsTable" (selectionChange)="updateColumnsShow()" multiple>
+                    <mat-option *ngFor="let column of columnsArray" [value]="column">{{column}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
             <div class="mat-elevation-z8">
                 <table mat-table [dataSource]="dataSource" matSort id="productTable">
 
-                    <!-- Name Column -->
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-                    </ng-container>
-
-                    <!-- Status Column -->
-                    <ng-container matColumnDef="status">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-                        <td mat-cell *matCellDef="let row"> {{row.status}} </td>
-                    </ng-container>
-
-                    <!-- Action Details -->
-                    <ng-container matColumnDef="details">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Details </th>
-                        <td mat-cell *matCellDef="let row; let i=index;">
-                            <button mat-icon-button color="accent" matTooltip="Borrar oportunidad"
-                                (click)="openDetailsProduct(i)">
-                                <mat-icon aria-label="Delete">info</mat-icon>
+                    <!-- Ng For show all headers -->
+                    <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index"
+                        matColumnDef="{{disCol}}">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{disCol}}
+                            <button mat-icon-button color="accent" matTooltio="Hide column"
+                                 (click)="hideColumn(colIndex)">
+                                <mat-icon aria-label="Hide column">remove</mat-icon>
+                            </button>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element[disCol]}}
+                            <button mat-icon-button color="primary" matTooltip="View details"
+                                *ngIf="colIndex == displayedColumns.length -1" (click)="openDetailsProduct(element)">
+                                <mat-icon aria-label="Info">info</mat-icon>
                             </button>
                         </td>
                     </ng-container>

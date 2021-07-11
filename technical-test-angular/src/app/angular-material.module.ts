@@ -18,6 +18,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table'  
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 
 @NgModule({
@@ -38,7 +40,8 @@ import {MatDialogModule} from '@angular/material/dialog';
         MatSortModule,
         MatTableModule,
         MatSidenavModule,
-        MatDialogModule
+        MatDialogModule,
+        MatSnackBarModule
     ],
     exports: [
         CommonModule,
@@ -57,7 +60,8 @@ import {MatDialogModule} from '@angular/material/dialog';
         MatSortModule,
         MatTableModule,
         MatSidenavModule,
-        MatDialogModule
+        MatDialogModule,
+        MatSnackBarModule
     ]
 })
 

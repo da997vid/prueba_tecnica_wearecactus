@@ -1,0 +1,46 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+// Create custom palette for the project
+$custom-cactus-palette: (
+  50 : #9ECAE9,
+  100 : #87b6d8,
+  200 : #78a9cc,
+  300 : #6b9fc5,
+  400 : #518ab3,
+  500 : #3a6f94,
+  600 : #275677,
+  700 : #1f4c6d,
+  800 : #173d58,
+  900 : #284b63,
+  A100 : #ffffff,
+  A200 : #e9e7ff,
+  A400 : #425a9b,
+  A700 : #3862a1,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+// Set primary, accent and warn new colors
+$cactus-primary: mat-palette($custom-cactus-palette, 50);
+$cactus-accent:  mat-palette($custom-cactus-palette, 900);
+$cactus-warn: mat-palette($mat-red);
+
+$cactus-theme: mat-light-theme($cactus-primary, $cactus-accent, $cactus-warn);
+
+@include angular-material-theme($cactus-theme);

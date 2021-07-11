@@ -7,11 +7,11 @@
 
         <form [formGroup]="loginForm" (ngSubmit)="login()">
             <mat-card-content>
-                <mat-form-field class="example-full-width">
+                <mat-form-field class="example-full-width" appearance="outline">
                     <input type="text" formControlName="name" matInput placeholder="Name">
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
+                <mat-form-field class="example-full-width" appearance="outline">
                     <input matInput type="password" formControlName="password" placeholder="Password">
                 </mat-form-field>
             </mat-card-content>

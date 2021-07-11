@@ -1,11 +1,11 @@
-<h1 mat-dialog-title>Hi {{data.user_name}}</h1>
+<h1 mat-dialog-title>Hi, ¡{{data.user_name}}!</h1>
 <div mat-dialog-content>
-  <p>Would you like to chenge your name?</p>
-  <mat-form-field>
+  <p>Would you like to change your name?</p>
+  <mat-form-field appearance="outline">
     <input matInput [(ngModel)]="data.user_name">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.user_name" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()" color="warn">No thanks</button>
+  <button mat-raised-button [mat-dialog-close]="data.user_name" color="primary" cdkFocusInitial>Ok</button>
 </div>

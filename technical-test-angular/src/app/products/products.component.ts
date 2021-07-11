@@ -2,16 +2,21 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, Input } fro
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {} from '@angular/core';
+import { } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import {FormControl} from '@angular/forms';
 
 import { ProductsService } from './services/products.service';
 import { ProductsReport } from './models/productsReport';
 import { DialogNameComponent } from './dialog-name/dialog-name.component';
-
 import { AuthService } from '../auth.service';
+
+interface Status {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-products',
@@ -24,8 +29,15 @@ export class ProductsComponent implements OnInit {
   user_name: any;
   productDetailData: any;
   showSidenav: boolean = false;
-  displayedColumns: string[] = ['name', 'status', 'details'];
+  displayedColumns: string[] = ['name', 'status'];
+  columnsArray: string[];
   dataSource: MatTableDataSource<ProductsReport>;
+  columnsTable = new FormControl();
+
+  status: Status[] = [
+    { value: 'active', viewValue: 'Active' },
+    { value: 'inactive', viewValue: 'Inactive' }
+  ];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -33,10 +45,9 @@ export class ProductsComponent implements OnInit {
 
   constructor(private productsService: ProductsService,
     private authService: AuthService,
-    changeDetectorRef: ChangeDetectorRef, 
     private router: Router,
-    public dialog: MatDialog) { 
-    }
+    public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
     // Get User name
@@ -50,6 +61,10 @@ export class ProductsComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.products);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
+      // Get headers array to show on columns
+      this.columnsArray = Object.keys(this.products[0]);
+      this.columnsTable.setValue(this.displayedColumns); // Set mat-select value like headers given
     })
   }
 
@@ -64,10 +79,10 @@ export class ProductsComponent implements OnInit {
   }
 
   /** Open Sidenav and show details products */
-  openDetailsProduct(index: number) {
+  openDetailsProduct(row: any) {
     // Assign values to detail product object
     this.showSidenav = true;
-    this.productDetailData = this.products[index];
+    this.productDetailData = this.products[row.id - 1];
     this.sidenav.toggle();
   }
 
@@ -80,15 +95,32 @@ export class ProductsComponent implements OnInit {
   openDialog(): void {
     let dialogRef = this.dialog.open(DialogNameComponent, {
       width: '250px',
-      data: { user_name: this.user_name}
+      data: { user_name: this.user_name }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result)
-      {
+      if (result) {
         this.authService.saveNameUser(result);
         this.user_name = result;
       }
     });
+  }
+
+  /** Hide column table (we can't hide detail column because we must see the details product when clicked) */
+  hideColumn(colIndex: any) {
+    // Check that table has at least one column
+    if (this.displayedColumns.length > 0)
+      this.displayedColumns.splice(colIndex, 1);
+      this.columnsTable.setValue(this.displayedColumns); // Update the mat-select value too
+  }
+
+  /** Select which columns we want to show
+   * We get an array which has just the columns that we want to show
+   * and then we compare to the header columns array.
+   */
+  updateColumnsShow() {
+    // Check that table has at least one column
+    if (this.columnsTable.value.length > 0)
+      this.displayedColumns = this.columnsTable.value;
   }
 }

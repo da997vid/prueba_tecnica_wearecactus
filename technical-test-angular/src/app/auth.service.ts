@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { CanActivate } from '@angular/router';
 
 export interface UserDetails {
   _name: string
@@ -32,4 +33,21 @@ export class AuthService {
     });
   }
 
+}
+
+@Injectable()
+export class CanActivateAuthGuard implements CanActivate {
+
+  constructor(private authService: AuthService, private router: Router) { }
+
+  canActivate() {
+    // If the user is not logged in we'll send them back to the home page
+    if (!this.authService.getuser()) {
+      console.log('No estás logueado');
+      this.router.navigate(['/']);
+      return false;
+    }
+
+    return true;
+  }
 }
